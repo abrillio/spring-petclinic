@@ -1,5 +1,5 @@
 # Use a base image with Java and Maven installed
-FROM maven:3.6.3-openjdk-11 AS build
+FROM maven:3.6.3-openjdk-17 AS build
 
 # Set the working directory in the container
 WORKDIR /app
@@ -12,7 +12,7 @@ COPY src ./src
 RUN mvn clean package
 
 # Create a new container with only the JRE
-FROM openjdk:11-jre-slim
+FROM openjdk:17
 
 # Set the working directory in the container
 WORKDIR /app
