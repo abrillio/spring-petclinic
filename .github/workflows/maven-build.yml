@@ -60,7 +60,7 @@ jobs:
           path: target
 
       - name: Build Docker image
-        run: docker build -t 233873070253.dkr.ecr.us-west-2.amazonaws.com/my-spring-boot-app .
+        run: docker build -t 440205455740.dkr.ecr.us-east-2.amazonaws.com/aws_replatform_ecr .
 
       - name: Install and configure AWS CLI
         run: |
@@ -69,22 +69,22 @@ jobs:
           sudo ./aws/install --update
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set default.region us-west-2
+          aws configure set default.region us-east-2
 
       - name: Login to ECR
         run: |
-          aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 233873070253.dkr.ecr.us-west-2.amazonaws.com
+          aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 440205455740.dkr.ecr.us-east-2.amazonaws.com
 
       - name: Tag and push Docker image
         run: |
-          docker tag 233873070253.dkr.ecr.us-west-2.amazonaws.com/my-spring-boot-app:latest 233873070253.dkr.ecr.us-west-2.amazonaws.com/my-spring-boot-app:${GITHUB_SHA}
-          docker push 233873070253.dkr.ecr.us-west-2.amazonaws.com/my-spring-boot-app:${GITHUB_SHA}
+          docker tag 440205455740.dkr.ecr.us-east-2.amazonaws.com/aws_replatform_ecr-app:latest 440205455740.dkr.ecr.us-east-2.amazonaws.com/aws_replatform_ecr:${GITHUB_SHA}
+          docker push 440205455740.dkr.ecr.us-east-2.amazonaws.com/aws_replatform_ecr:${GITHUB_SHA}
 
       - name: Deploy to EKS
         run: |
-          aws eks update-kubeconfig --region us-west-2 --name my-eks-cluster
+          aws eks update-kubeconfig --region us-east-2 --name test_k8s
           mkdir -p k8s
-          export ECR_REPOSITORY_URL="233873070253.dkr.ecr.us-west-2.amazonaws.com/my-spring-boot-app:${GITHUB_SHA}"
+          export ECR_REPOSITORY_URL="440205455740.dkr.ecr.us-east-2.amazonaws.com/aws_replatform_ecr:${GITHUB_SHA}"
           envsubst < k8s-deployment.yaml > k8s/k8s-deployment.yaml
           echo "resources:" > k8s/kustomization.yaml
           echo "- k8s-deployment.yaml" >> k8s/kustomization.yaml
