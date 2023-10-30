@@ -18,7 +18,7 @@ FROM openjdk:17
 WORKDIR /app
 
 # Copy the compiled JAR file from the 'build' container to this container
-COPY --from=build /app/target/spring-petclinic.jar ./app.jar
+COPY --from=build /home/runner/work/spring-petclinic/spring-petclinic/target
 
 # Expose the port the application will run on
 EXPOSE 8080
