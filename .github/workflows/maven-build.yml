@@ -82,12 +82,12 @@ jobs:
           docker tag aws_replatform_ecr:latest 440205455740.dkr.ecr.us-east-2.amazonaws.com/aws_replatform_ecr:latest
           docker push 440205455740.dkr.ecr.us-east-2.amazonaws.com/aws_replatform_ecr:latest
 
+      - name: Pull Docker image from ECR
+        run: |
+          docker pull 440205455740.dkr.ecr.us-east-2.amazonaws.com/aws_replatform_ecr:latest     
+
       - name: Deploy to EKS
         run: |
-          aws eks update-kubeconfig --region us-east-2 --name test_k8s
-          mkdir -p k8s
-          export ECR_REPOSITORY_URL="440205455740.dkr.ecr.us-east-2.amazonaws.com/aws_replatform_ecr:latest"
-          envsubst < k8s-deployment.yaml > k8s/k8s-deployment.yaml
-          echo "resources:" > k8s/kustomization.yaml
-          echo "- k8s-deployment.yaml" >> k8s/kustomization.yaml
-          kubectl kustomize k8s | kubectl apply -f - --force
+          kubectl config use-context test_k8s
+          kubectl set image deployment/spring-petclinic spring-petclinic=440205455740.dkr.ecr.us-east-2.amazonaws.com/aws_replatform_ecr:latest
+          
