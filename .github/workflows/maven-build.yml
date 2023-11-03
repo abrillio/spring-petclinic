@@ -100,9 +100,5 @@ jobs:
           # List the available contexts in the kubeconfig
           kubectl config get-contexts
 
-          # Set the context to the recently added EKS cluster context (Replace <context_name> with the actual context name)
-          kubectl config use-context latest
-
-          # Run the image update for the deployment (Replace <deployment_name> with the actual deployment name)
-          kubectl set image deployment/spring-petclinic spring-petclinic=440205455740.dkr.ecr.us-east-2.amazonaws.com/aws_replatform_ecr:latest
+         
 
