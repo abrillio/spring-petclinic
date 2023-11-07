@@ -90,15 +90,7 @@ jobs:
         run: |
           # Update kubeconfig for Amazon EKS
           aws eks update-kubeconfig --name test_k8s --region us-east-2
-
-          # Confirm if the nodes are accessible
-          kubectl get nodes
-
-          # Check the content of the kubeconfig file
-          ls -a ~/.kube/config
-
-          # List the available contexts in the kubeconfig
-          kubectl config get-contexts
+          kubectl apply -f k8s_deployment.yaml
 
          
 
