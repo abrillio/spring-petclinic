@@ -13,11 +13,10 @@ spec:
         app: spring-petclinic
     spec:
       containers:
-      - name: spring-petclinic 
-        image: 440205455740.dkr.ecr.us-east-2.amazonaws.com/aws_replatform_ecr
+      - name: spring-petclinic
+        image: 440205455740.dkr.ecr.us-east-2.amazonaws.com/aws_replatform_ecr:latest  # Specify the image tag
         ports:
         - containerPort: 8080
-          name: http
 ---
 apiVersion: v1
 kind: Service
@@ -32,3 +31,4 @@ spec:
     name: http
   selector:
     app: spring-petclinic
+
